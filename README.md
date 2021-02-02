@@ -1,10 +1,7 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://sar.ycithe.net/assets/img/ycit-logo.png" width="400"></a></p>
 
 <p align="center">
-<a href="https://sar.ycithe.net"><img src="https://travis-ci.org/laravel/framework.svg" alt="SAR System"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    مركز تقنية المعلومات بالتعليم العالي
 </p>
 
 ## About Laravel
