@@ -7,13 +7,18 @@
         </div>
                                         
         <div class="form-group">
-            {!! Form::label('cat_id', 'category') !!}
-            {!! Form::select('cat_id', $categories, null, ['class' => 'form-control']) !!}
+            {!! Form::label('category_id', 'category') !!}
+            {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
         </div>
                                         
 		<div class="form-group">
-			{!! Form::label('content', __('site.page_content') . ' *') !!}
-            {!! Form::textarea('content', $content, ['class'=>'form-control textarea']) !!}
+			{!! Form::label('content', 'content') !!}
+            {!! Form::textarea('content', null, ['class'=>'form-control textarea']) !!}
+        </div>
+
+		<div class="form-group">
+            {!! Form::checkbox('is_active', (empty($article) ? true : ($article->is_active ==1)), ['class'=>'form-check-input']) !!}
+            {!! Form::label('is_active', 'is active') !!}
         </div>
     </div>
 </div>
@@ -22,7 +27,7 @@
 <div class="text-left">
 	<button type="submit" class="btn btn-primary">
 		<h5 class="mb-0">
-			@lang('site.save')
+			Save
 			<i class="fas fa-save"></i>
 		</h5>
     </button>

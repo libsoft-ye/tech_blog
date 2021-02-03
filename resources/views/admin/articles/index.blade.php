@@ -49,9 +49,6 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-										@php
-											$rowidParent = 0;
-										@endphp
                                         @foreach ($articles as $article)
                                             @include('admin.articles._rows')
                                         @endforeach

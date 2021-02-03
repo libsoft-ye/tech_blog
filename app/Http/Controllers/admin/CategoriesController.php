@@ -16,10 +16,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
-        $categories=Category::orderBy('id','desc')->get();
-        return view('admin.categories_list')->with('cats',$categories);
-
+        $categories=Category::with('parent')->latest()->get();
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -29,9 +27,8 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        //
-        $allCats=Category::select('id','name')->where('is_active',1)->get();
-        return view('admin.category_add')->with('allCats',$allCats);
+        $parents = Category::active()->root()->pluck('name', 'id')->all();
+        return view('admin.categories.create', compact('parents'));
     }
 
     /**
@@ -42,63 +39,63 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
-        //dd($request);
-        $is_active=$request->has('is_active')?1:0;
-        $newCat=new Category();
-        $newCat->name=$request->input('cat_name');
-        $newCat->parent=$request->input('parent');
-        $newCat->is_active=$is_active;
-        $result=$newCat->save();
-        if($result>0)
-        return redirect()->route('categories.index')->with('message', 'category addes successful '.$result);
-        return redirect()->route('categories.index')->with('error', 'category addes successful '.$result);
+        $category=new Category();
+        $category->name=$request->name;
+        $category->parent_id=$request->parent ?? 0;
+        $category->is_active=$request->has('is_active')?1:0;
+        $category->save();
+        return redirect()->route('categories.index')->with('message', 'category addes successful');
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        $parents = Category::active()->root()->pluck('name', 'id')->all();
+        return view('admin.categories.edit', compact('parents', 'category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $category->name=$request->name;
+        $category->parent_id=$request->parent;
+        $category->is_active=$request->has('is_active')?1:0;
+        $category->save();
+        return redirect()->route('admin.categories.index')->with('message', 'updated successful');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('admin.categories.index')->with('message', 'deleted successful');
     }
 }

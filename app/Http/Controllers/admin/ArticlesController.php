@@ -17,9 +17,8 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        //
         $articles= Article::with('category')->orderBy('id','desc')->get();
-        return view('admin.articles.index')->with('articles',$articles);
+        return view('admin.articles.index', compact('articles'));
 
     }
 
@@ -30,8 +29,8 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-        $categories = Category::select('id','name')->where('is_active',1)->get();
-        return view('admin.articles.create')->with('categories',$categories);
+        $categories = Category::active()->pluck('name', 'id')->all();
+        return view('admin.articles.create', compact('categories'));
     }
 
     /**
@@ -44,63 +43,64 @@ class ArticlesController extends Controller
     {
         
 		$article =new Article();
-        $article->name=$request->name;
+        $article->title=$request->title;
         $article->content=$request->content ?? '';
-        $article->cat_id=$request->cat_id ?? 0;
+        $article->category_id=$request->category_id ?? 0;
         $article->is_active=$request->has('is_active')?1:0;
         $article->save();
-        return redirect()->route('admin.articles.index')->with('message', 'added successful');
+        return redirect()->route('articles.index')->with('message', 'added successful');
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  Artilce $article
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function show(Artilce $article)
+    public function show(Article $article)
     {
-        return view('admin.articles.show')->with('article',$article);
+        return view('admin.articles.show', compact('article'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Artilce $article
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function edit(Artilce $article)
+    public function edit(Article $article)
     {
-        return view('admin.articles.edit')->with('article',$article);
+        $categories = Category::active()->pluck('name', 'id')->all();
+        return view('admin.articles.edit', compact('article', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Artilce $article
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Artilce $article)
+    public function update(Request $request, Article $article)
     {
-        $article->name=$request->name;
+        $article->title=$request->title;
         $article->content=$request->content ?? '';
-        $article->cat_id=$request->cat_id ?? 0;
+        $article->category_id=$request->category_id ?? 0;
         $article->is_active=$request->has('is_active')?1:0;
         $article->save();
-        return redirect()->route('admin.articles.index')->with('message', 'updated successful');
+        return redirect()->route('articles.index')->with('message', 'updated successful');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Artilce $article
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Artilce $article)
+    public function destroy(Article $article)
     {
         $article->delete();
-        return redirect()->route('admin.articles.index')->with('message', 'deleted successful');
+        return redirect()->route('articles.index')->with('message', 'deleted successful');
     }
 }

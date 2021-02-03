@@ -17,7 +17,7 @@
                                 <a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('admins.articles.index') }}"> articles</a>
+                                <a href="{{ route('articles.index') }}"> articles</a>
                             </li>
                             <li class="breadcrumb-item active">add</li>
                         </ol>

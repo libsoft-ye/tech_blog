@@ -18,8 +18,8 @@ class CreateArticlesTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->boolean('is_active');
-            $table->unsignedBigInteger('cat_id');
-            $table->foreign('cat_id')->references('id')->on('categories');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }
